@@ -18,7 +18,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         aria-checked={selected}
         data-state={selected ? 'on' : 'off'}
         className={cn(
-          'inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium transition-all',
+          'inline-flex items-center gap-2 rounded-full border px-5 py-3 text-xl font-medium transition-all',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
           'disabled:opacity-50 disabled:pointer-events-none',
           selected
@@ -28,7 +28,7 @@ export const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(
         )}
         {...props}
       >
-        <Icon className="size-4 shrink-0" />
+        <Icon className="size-6 shrink-0" />
         <span>{label}</span>
       </button>
     );

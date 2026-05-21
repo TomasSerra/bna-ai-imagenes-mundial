@@ -23,7 +23,7 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
     (async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'user', width: { ideal: 1024 }, height: { ideal: 1024 } },
+          video: { facingMode: 'user', width: { ideal: 1080 }, height: { ideal: 1440 } },
           audio: false,
         });
         if (videoRef.current) {
@@ -51,15 +51,29 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
 
     const w = video.videoWidth;
     const h = video.videoHeight;
-    const size = Math.min(w, h);
+
+    let cropW: number;
+    let cropH: number;
+    if (w / h > 3 / 4) {
+      cropH = h;
+      cropW = h * (3 / 4);
+    } else {
+      cropW = w;
+      cropH = w * (4 / 3);
+    }
+    const sx = (w - cropW) / 2;
+    const sy = (h - cropH) / 2;
+
+    const outW = 1080;
+    const outH = 1440;
     const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
+    canvas.width = outW;
+    canvas.height = outH;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.translate(size, 0);
+    ctx.translate(outW, 0);
     ctx.scale(-1, 1);
-    ctx.drawImage(video, (w - size) / 2, (h - size) / 2, size, size, 0, 0, size, size);
+    ctx.drawImage(video, sx, sy, cropW, cropH, 0, 0, outW, outH);
     const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
     const base64 = dataUrl.split(',')[1] ?? '';
     onCapture({ base64, dataUrl });
@@ -67,20 +81,24 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
 
   if (hasPhoto && previewUrl) {
     return (
-      <div className="space-y-3">
-        <div className="overflow-hidden rounded-lg border bg-muted">
-          <img src={previewUrl} alt="Foto capturada" className="aspect-square w-full object-cover" />
+      <div className="flex h-full flex-col gap-3">
+        <div className="flex-1 min-h-0 overflow-hidden rounded-lg border bg-muted">
+          <img src={previewUrl} alt="Foto capturada" className="h-full w-full object-cover" />
         </div>
-        <Button variant="outline" onClick={onReset} className="w-full">
-          <RefreshCw className="size-4" /> Volver a tomar la foto
+        <Button
+          variant="outline"
+          onClick={onReset}
+          className="h-16 w-full text-2xl [&_svg]:size-7"
+        >
+          <RefreshCw /> Volver a tomar la foto
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
-      <div className="aspect-square w-full overflow-hidden rounded-lg border bg-muted">
+    <div className="flex h-full flex-col gap-3">
+      <div className="flex-1 min-h-0 overflow-hidden rounded-lg border bg-muted">
         {error ? (
           <div className="flex h-full items-center justify-center p-4">
             <Alert variant="destructive">
@@ -97,8 +115,12 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
         )}
       </div>
 
-      <Button onClick={capture} disabled={!streaming} className="w-full">
-        <Camera className="size-4" /> Capturar foto
+      <Button
+        onClick={capture}
+        disabled={!streaming}
+        className="h-16 w-full text-2xl [&_svg]:size-7"
+      >
+        <Camera /> Capturar foto
       </Button>
     </div>
   );

@@ -1,25 +1,15 @@
 import {
-  Beef,
-  Brush,
   Camera,
+  CircleDot,
   Clapperboard,
-  Coffee,
-  Dog,
-  Droplets,
-  Grape,
+  Drum,
+  Flag,
+  Goal,
+  Landmark,
   Laugh,
-  Milk,
-  Mountain,
-  PenTool,
-  Scissors,
-  Sparkles,
-  Sprout,
-  Sun,
-  Tractor,
-  Warehouse,
+  Users,
 } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
-import { Horse } from '@/components/icons/Horse';
 import type { EstiloId } from '@/types';
 
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
@@ -32,21 +22,45 @@ interface Option {
 }
 
 export const AMBIENTES: Option[] = [
-  { id: 'campo', label: 'Campo abierto', en: 'an open countryside field at sunrise', icon: Sun },
-  { id: 'granja', label: 'Granja', en: 'a farm with a classic red barn', icon: Warehouse },
-  { id: 'soja', label: 'Sembrado de soja', en: 'a vast soybean field', icon: Sprout },
-  { id: 'vinedo', label: 'Viñedo', en: 'a vineyard in Mendoza, Argentina', icon: Grape },
-  { id: 'patagonia', label: 'Patagonia', en: 'the Patagonian steppe with mountains in the distance', icon: Mountain },
-  { id: 'corral', label: 'Corral con vacas', en: 'a corral surrounded by cows', icon: Beef },
+  {
+    id: 'obelisco',
+    label: 'Obelisco',
+    en: 'the Obelisco of Buenos Aires at dusk, with Argentine fans celebrating below',
+    icon: Landmark,
+  },
+  {
+    id: 'cancha',
+    label: 'Cancha de fútbol',
+    en: 'a professional soccer field at a packed stadium, bright stadium lights, fresh green grass',
+    icon: Goal,
+  },
+  {
+    id: 'tribuna',
+    label: 'Tribuna de estadio',
+    en: 'the stands of a packed soccer stadium full of cheering Argentine fans waving flags',
+    icon: Users,
+  },
 ];
 
 export const ACCIONES: Option[] = [
-  { id: 'tractor', label: 'Manejando un tractor', en: 'driving a green John Deere tractor', icon: Tractor },
-  { id: 'caballo', label: 'A caballo', en: 'riding a horse at a gallop', icon: Horse },
-  { id: 'ordenando', label: 'Ordeñando una vaca', en: 'milking a cow by hand on a wooden stool', icon: Milk },
-  { id: 'arreando', label: 'Arreando ovejas', en: 'herding sheep with a sheepdog', icon: Dog },
-  { id: 'mate', label: 'Tomando mate', en: 'drinking mate at sunset, leaning on a wooden fence', icon: Coffee },
-  { id: 'esquilando', label: 'Esquilando ovejas', en: 'shearing a sheep with traditional shears', icon: Scissors },
+  {
+    id: 'pelota',
+    label: 'Pelota de Fútbol',
+    en: 'holding and controlling a classic black-and-white soccer ball',
+    icon: CircleDot,
+  },
+  {
+    id: 'bandera',
+    label: 'Bandera Argentina',
+    en: 'proudly waving a large Argentine flag (sky blue, white, sky blue horizontal stripes with a golden sun in the middle) over their shoulders',
+    icon: Flag,
+  },
+  {
+    id: 'bombo',
+    label: 'Bombo',
+    en: 'playing a traditional Argentine hinchada bass drum (bombo) strapped to the chest, holding drumsticks',
+    icon: Drum,
+  },
 ];
 
 interface EstiloOption extends Option {
@@ -54,11 +68,22 @@ interface EstiloOption extends Option {
 }
 
 export const ESTILOS: EstiloOption[] = [
-  { id: 'realista', label: 'Realista', en: 'photorealistic photograph, natural lighting, high detail, photorealistic skin tones', icon: Camera },
-  { id: 'vectorial', label: '2D vectorial', en: '2D flat vector illustration, bold lines, simple shapes, vibrant colors', icon: PenTool },
-  { id: 'oleo', label: 'Óleo', en: 'oil painting, visible brush strokes, classical art style', icon: Brush },
-  { id: 'acuarela', label: 'Acuarela', en: 'watercolor painting, soft washes, paper texture', icon: Droplets },
-  { id: 'ghibli', label: 'Ghibli', en: 'Studio Ghibli anime style, soft pastel palette, hand-drawn feel', icon: Sparkles },
-  { id: 'pixar', label: 'Pixar', en: 'Pixar-style 3D animated character, expressive face, stylized proportions, cinematic lighting, vibrant colors', icon: Clapperboard },
-  { id: 'caricatura', label: 'Caricatura', en: 'hand-drawn cartoon caricature, sketched by an artist on paper, exaggerated oversized head with small cartoon body, thick uneven hand-inked black outlines with visible pen strokes, slightly wobbly imperfect linework, hand-colored with soft cel-shading and simple highlights, exaggerated facial features (huge expressive eyes, big oversized smile with prominent teeth and lips, playful goofy expression), traditional caricature artist style like a street fair portrait, clean off-white paper background, vibrant marker-like colors', icon: Laugh },
+  {
+    id: 'realista',
+    label: 'Realista',
+    en: 'photorealistic photograph, natural lighting, high detail, photorealistic skin tones',
+    icon: Camera,
+  },
+  {
+    id: 'pixar',
+    label: 'Pixar 3D',
+    en: 'Pixar-style 3D animated character, expressive face, stylized proportions, cinematic lighting, vibrant colors',
+    icon: Clapperboard,
+  },
+  {
+    id: 'caricatura',
+    label: 'Caricatura',
+    en: 'hand-drawn cartoon caricature, sketched by an artist on paper, exaggerated oversized head with small cartoon body, thick uneven hand-inked black outlines with visible pen strokes, slightly wobbly imperfect linework, hand-colored with soft cel-shading and simple highlights, exaggerated facial features (huge expressive eyes, big oversized smile with prominent teeth and lips, playful goofy expression), traditional caricature artist style like a street fair portrait, clean off-white paper background, vibrant marker-like colors',
+    icon: Laugh,
+  },
 ];

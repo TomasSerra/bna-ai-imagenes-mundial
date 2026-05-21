@@ -84,6 +84,7 @@ export async function generateImage({
       image_url: `data:image/jpeg;base64,${inputImageBase64}`,
       output_format: 'jpeg',
       safety_tolerance: '2',
+      aspect_ratio: '9:16',
     }),
     signal,
   });

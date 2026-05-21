@@ -51,6 +51,12 @@
 
 @layer base {
   * { @apply border-border; }
+  html {
+    /* Root font-size relative to viewport height so the whole UI (all
+       Tailwind rem-based sizes) scales proportionally on any TV resolution.
+       At 1920px tall → 24px (current baseline); at 3840px (4K) → 48px (2×). */
+    font-size: 1.25vh;
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,

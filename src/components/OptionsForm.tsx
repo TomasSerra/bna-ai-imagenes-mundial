@@ -11,7 +11,7 @@ interface OptionsFormProps {
 
 export function OptionsForm({ value, onChange, disabled }: OptionsFormProps) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <ChipGroup label="Ambiente">
         {AMBIENTES.map((a) => (
           <Chip
@@ -25,7 +25,7 @@ export function OptionsForm({ value, onChange, disabled }: OptionsFormProps) {
         ))}
       </ChipGroup>
 
-      <ChipGroup label="Acción">
+      <ChipGroup label="Objeto">
         {ACCIONES.map((a) => (
           <Chip
             key={a.id}
@@ -56,9 +56,9 @@ export function OptionsForm({ value, onChange, disabled }: OptionsFormProps) {
 
 function ChipGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium leading-none">{label}</p>
-      <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
+    <div className="space-y-3">
+      <p className="text-xl font-medium leading-none">{label}</p>
+      <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-3">
         {children}
       </div>
     </div>

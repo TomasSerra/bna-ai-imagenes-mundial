@@ -1,4 +1,4 @@
-export type EstiloId = 'realista' | 'vectorial' | 'oleo' | 'acuarela' | 'ghibli' | 'pixar' | 'caricatura';
+export type EstiloId = 'realista' | 'pixar' | 'caricatura';
 
 export interface Opciones {
   ambiente: string;
