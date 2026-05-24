@@ -29,20 +29,22 @@ export function ApiKeyDialog({ open, onSave, onClose, initialKey = '' }: ApiKeyD
         if (!o) onClose?.();
       }}
     >
-      <DialogContent hideClose={!onClose} className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <KeyRound className="size-5" />
+      <DialogContent hideClose={!onClose} className="gap-6 p-8 sm:max-w-2xl">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="flex items-center gap-3 text-3xl">
+            <KeyRound className="size-8" />
             Conectá tu cuenta de fal.ai
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-lg leading-relaxed">
             Pegá tu API key de fal.ai. Se guarda solo en tu navegador (localStorage) y nunca sale
             de tu equipo. Vas a pagar por uso real en tu cuenta de fal (~$0.04 por imagen).
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-2">
-          <Label htmlFor="api-key">API key</Label>
+        <div className="space-y-3">
+          <Label htmlFor="api-key" className="text-xl">
+            API key
+          </Label>
           <Input
             id="api-key"
             type="password"
@@ -53,24 +55,29 @@ export function ApiKeyDialog({ open, onSave, onClose, initialKey = '' }: ApiKeyD
             onKeyDown={(e) => {
               if (e.key === 'Enter' && value.trim()) onSave(value.trim());
             }}
+            className="h-14 px-4 py-3 text-xl"
           />
           <a
             href="https://fal.ai/dashboard/keys"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 text-base text-muted-foreground hover:text-foreground"
           >
-            Obtené una clave en fal.ai/dashboard/keys <ExternalLink className="size-3" />
+            Obtené una clave en fal.ai/dashboard/keys <ExternalLink className="size-5" />
           </a>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="gap-3 sm:space-x-0">
           {onClose && (
-            <Button variant="ghost" onClick={onClose}>
+            <Button variant="ghost" onClick={onClose} className="h-14 px-6 text-xl">
               Cancelar
             </Button>
           )}
-          <Button disabled={!value.trim()} onClick={() => onSave(value.trim())}>
+          <Button
+            disabled={!value.trim()}
+            onClick={() => onSave(value.trim())}
+            className="h-14 px-6 text-xl"
+          >
             Guardar
           </Button>
         </DialogFooter>

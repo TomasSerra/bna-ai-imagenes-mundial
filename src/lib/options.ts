@@ -77,7 +77,7 @@ export const ESTILOS: EstiloOption[] = [
   {
     id: 'pixar',
     label: 'Pixar 3D',
-    en: 'Pixar-style 3D animated character, expressive face, stylized proportions, cinematic lighting, vibrant colors',
+    en: 'highly stylized Pixar-Disney 3D animated character render in the cinematic look of modern Disney/Pixar feature films (Tangled, Encanto, Inside Out, Soul, Luca), very large expressive cartoon eyes with detailed glossy multi-toned irises, bright sparkling catchlights and soft eyelashes, rounded soft cheeks, slightly exaggerated stylized facial proportions (small button nose, gentle half-smile, soft jawline), smooth stylized skin with rich subsurface scattering, fluffy detailed hair with visible individual hair strands and flyaways catching soft cinematic rim light wrapping around the silhouette, very soft painterly diffused shadows on the character (NEVER harsh edges, NEVER realistic shadow falloff), shallow depth of field with creamy dreamy bokeh, ultra detailed PBR materials on the character, soft global illumination, high-quality octane/arnold/renderman 3D render, animation-grade topology and shading, NOT photorealistic, NOT realistic photo — pure stylized 3D animation movie still',
     icon: Clapperboard,
   },
   {

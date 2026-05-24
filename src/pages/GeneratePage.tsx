@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Download, Loader2, RotateCw } from 'lucide-react';
+import { ArrowLeft, Loader2, RotateCw } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -34,6 +35,7 @@ interface GeneratePageProps {
 export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePageProps) {
   const [phase, setPhase] = useState<Phase>('generating');
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [publicUrl, setPublicUrl] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [statusMsg, setStatusMsg] = useState<string>(STATUS_MESSAGES[0]);
   const currentResultRef = useRef<string | null>(null);
@@ -42,16 +44,18 @@ export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePagePr
   const run = async () => {
     setPhase('generating');
     setErrorMsg(null);
+    setPublicUrl(null);
     try {
-      const blob = await generateImage({
+      const { blob, url: falUrl } = await generateImage({
         apiKey,
         prompt: buildPrompt(opciones),
         inputImageBase64: photo.base64,
       });
       if (currentResultRef.current) URL.revokeObjectURL(currentResultRef.current);
-      const url = URL.createObjectURL(blob);
-      currentResultRef.current = url;
-      setResultUrl(url);
+      const objectUrl = URL.createObjectURL(blob);
+      currentResultRef.current = objectUrl;
+      setResultUrl(objectUrl);
+      setPublicUrl(falUrl);
       setPhase('done');
     } catch (err) {
       const msg =
@@ -142,20 +146,21 @@ export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePagePr
         </div>
       </div>
 
-      {phase === 'done' && resultUrl && (
-        <div className="grid grid-cols-2 gap-3">
-          <Button asChild className="h-16 text-2xl [&_svg]:size-7">
-            <a href={resultUrl} download={`mundial-argentina-${Date.now()}.jpg`}>
-              <Download /> Descargar
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            onClick={regenerate}
-            className="h-16 text-2xl [&_svg]:size-7"
-          >
-            <RotateCw /> Regenerar
-          </Button>
+      {phase === 'done' && publicUrl && (
+        <div className="flex items-center justify-center gap-6 rounded-2xl border bg-card p-6">
+          <div className="size-48 shrink-0 rounded-lg bg-white p-3">
+            <QRCodeSVG
+              value={`${window.location.origin}/image?u=${encodeURIComponent(publicUrl)}`}
+              level="M"
+              className="h-full w-full"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-2xl font-bold">Escaneá para llevártela</p>
+            <p className="text-lg text-muted-foreground">
+              Apuntá la cámara de tu celular al QR
+            </p>
+          </div>
         </div>
       )}
 

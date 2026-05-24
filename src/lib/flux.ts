@@ -1,13 +1,13 @@
-// Cliente para fal.ai (Flux Kontext, image-to-image con preservación de identidad).
+// Cliente para fal.ai (Flux Kontext Multi: face photo + jersey reference).
 //
-// dev  → fal-ai/flux-pro/kontext       (~$0.04 / imagen)
-// prod → fal-ai/flux-pro/kontext/max   (~$0.08 / imagen, más calidad)
-//
-// Tanto submit/status/result viven en queue.fal.run y exponen CORS, así que
-// se llaman directo desde el browser con BYOK.
+// Usamos el endpoint `kontext/max/multi` que acepta varias imágenes de
+// referencia, así pasamos foto-de-cara + referencia-de-camiseta y el modelo
+// copia el patrón de rayas sin alucinar logos.
+// Costo similar al single-image (~$0.08 / imagen).
 
 const APP_NAMESPACE = 'fal-ai/flux-pro';
-const MODEL_PATH = 'kontext/max';
+const MODEL_PATH = 'kontext/max/multi';
+const JERSEY_REFERENCE_URL = '/jersey-arg.png';
 
 const SUBMIT_URL = `https://queue.fal.run/${APP_NAMESPACE}/${MODEL_PATH}`;
 const REQUESTS_BASE = `https://queue.fal.run/${APP_NAMESPACE}/requests`;
@@ -67,12 +67,46 @@ function authHeaders(apiKey: string): HeadersInit {
   };
 }
 
+export interface GenerateResult {
+  /** JPEG bytes — used for the in-page <img> preview via createObjectURL. */
+  blob: Blob;
+  /** Public fal.media URL — encode this into the phone-scannable QR. */
+  url: string;
+}
+
+// Cache the jersey reference data URL across generations — same file every time,
+// no point re-fetching/re-encoding it.
+let jerseyDataUrlPromise: Promise<string> | null = null;
+
+function getJerseyDataUrl(): Promise<string> {
+  if (!jerseyDataUrlPromise) {
+    jerseyDataUrlPromise = (async () => {
+      const resp = await fetch(JERSEY_REFERENCE_URL);
+      if (!resp.ok) {
+        throw new FluxError(
+          `No pude cargar la referencia de la camiseta (${resp.status}) — verificá public/jersey-arg.png.`,
+        );
+      }
+      const blob = await resp.blob();
+      return await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error('No pude leer la imagen de referencia.'));
+        reader.readAsDataURL(blob);
+      });
+    })();
+  }
+  return jerseyDataUrlPromise;
+}
+
 export async function generateImage({
   apiKey,
   prompt,
   inputImageBase64,
   signal,
-}: GenerateArgs): Promise<Blob> {
+}: GenerateArgs): Promise<GenerateResult> {
+  const jerseyDataUrl = await getJerseyDataUrl();
+
   const submit = await fetch(SUBMIT_URL, {
     method: 'POST',
     headers: {
@@ -81,7 +115,7 @@ export async function generateImage({
     },
     body: JSON.stringify({
       prompt,
-      image_url: `data:image/jpeg;base64,${inputImageBase64}`,
+      image_urls: [`data:image/jpeg;base64,${inputImageBase64}`, jerseyDataUrl],
       output_format: 'jpeg',
       safety_tolerance: '2',
       aspect_ratio: '9:16',
@@ -112,7 +146,8 @@ export async function generateImage({
   if (!imgResp.ok) {
     throw new FluxError(`No pude descargar la imagen generada (${imgResp.status}).`);
   }
-  return await imgResp.blob();
+  const blob = await imgResp.blob();
+  return { blob, url: resultUrl };
 }
 
 async function waitUntilDone(

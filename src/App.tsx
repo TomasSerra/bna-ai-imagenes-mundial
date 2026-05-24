@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiKeyDialog } from '@/components/ApiKeyDialog';
 import { CapturePage } from '@/pages/CapturePage';
 import { GeneratePage } from '@/pages/GeneratePage';
+import { ImagePage } from '@/pages/ImagePage';
 import type { Opciones } from '@/types';
 
 const STORAGE_KEY = 'fal_api_key';
@@ -14,7 +15,19 @@ const DEFAULT_OPCIONES: Opciones = {
 
 type Page = 'capture' | 'generate';
 
+/** Public watermarked-download page shown when a visitor opens the QR link
+ *  on their phone. Sits outside the kiosk state machine entirely. */
+const IMAGE_PATH = '/image';
+
 export default function App() {
+  if (typeof window !== 'undefined' && window.location.pathname === IMAGE_PATH) {
+    return <ImagePage />;
+  }
+
+  return <KioskApp />;
+}
+
+function KioskApp() {
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem(STORAGE_KEY) ?? '');
   const [keyDialogOpen, setKeyDialogOpen] = useState<boolean>(false);
 
