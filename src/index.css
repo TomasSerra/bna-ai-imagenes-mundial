@@ -57,9 +57,40 @@
        At 1920px tall → 24px (current baseline); at 3840px (4K) → 48px (2×). */
     font-size: 1.25vh;
   }
+  html,
+  body {
+    touch-action: pan-x pan-y;
+    overscroll-behavior: none;
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
       "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Kiosk mode: block selection, long-press callout, tap highlight, and image
+     drag on the TV touch screen. The ImagePage (rendered on user's phone after
+     scanning the QR) adds .allow-native-gestures to body to re-enable native
+     long-press → "Save image". */
+  body:not(.allow-native-gestures),
+  body:not(.allow-native-gestures) * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body:not(.allow-native-gestures) img {
+    -webkit-user-drag: none;
+    user-drag: none;
+  }
+  /* Inputs/textareas must keep text selection so the API key dialog works. */
+  body:not(.allow-native-gestures) input,
+  body:not(.allow-native-gestures) textarea,
+  body:not(.allow-native-gestures) [contenteditable="true"] {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
   }
 }

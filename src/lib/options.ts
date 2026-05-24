@@ -25,19 +25,19 @@ export const AMBIENTES: Option[] = [
   {
     id: 'obelisco',
     label: 'Obelisco',
-    en: 'the Obelisco of Buenos Aires at dusk, with Argentine fans celebrating below',
+    en: 'in front of the iconic white Obelisco of Buenos Aires on Avenida 9 de Julio, the Obelisco clearly visible directly behind the person in the background, golden hour light, Argentine fans and flags around the avenue',
     icon: Landmark,
   },
   {
     id: 'cancha',
     label: 'Cancha de fútbol',
-    en: 'a professional soccer field at a packed stadium, bright stadium lights, fresh green grass',
+    en: 'on the fresh green grass of a professional soccer field inside a packed stadium, bright stadium floodlights overhead, the crowd in the stands softly blurred in the background',
     icon: Goal,
   },
   {
     id: 'tribuna',
     label: 'Tribuna de estadio',
-    en: 'the stands of a packed soccer stadium full of cheering Argentine fans waving flags',
+    en: 'in the middle of the stands of a packed soccer stadium, surrounded on all sides by cheering Argentine fans in sky-blue and white, the soccer field visible far below, stadium floodlights',
     icon: Users,
   },
 ];
@@ -46,19 +46,19 @@ export const ACCIONES: Option[] = [
   {
     id: 'pelota',
     label: 'Pelota de Fútbol',
-    en: 'holding and controlling a classic black-and-white soccer ball',
+    en: 'holding a classic black-and-white soccer ball in their hands at chest level',
     icon: CircleDot,
   },
   {
     id: 'bandera',
     label: 'Bandera Argentina',
-    en: 'proudly waving a large Argentine flag (sky blue, white, sky blue horizontal stripes with a golden sun in the middle) over their shoulders',
+    en: 'holding a large Argentine flag mounted on a wooden flagpole — the person is gripping the flagpole firmly with one raised hand, the flag attached to the pole and waving in the wind (flameando), fabric rippling dynamically as if blown by a breeze; the flag has three horizontal stripes (sky blue on top, white in the middle, sky blue on the bottom) with the golden Sun of May in the center stripe, no other logos or text, the flag clearly visible and unfurled',
     icon: Flag,
   },
   {
     id: 'bombo',
     label: 'Bombo',
-    en: 'playing a traditional Argentine hinchada bass drum (bombo) strapped to the chest, holding drumsticks',
+    en: 'wearing a traditional Argentine hinchada bass drum (bombo) hanging from their neck by a wide fabric strap across the shoulder, the drum resting against their torso, holding a wooden drumstick (maza) in their hand ready to play',
     icon: Drum,
   },
 ];
@@ -71,7 +71,7 @@ export const ESTILOS: EstiloOption[] = [
   {
     id: 'realista',
     label: 'Realista',
-    en: 'photorealistic photograph, natural lighting, high detail, photorealistic skin tones',
+    en: 'ultra photorealistic photograph, sharp focus, natural lighting, high detail, photorealistic skin tones and textures, faithfully preserving the exact face shape, bone structure, facial proportions, and likeness from the first reference image',
     icon: Camera,
   },
   {

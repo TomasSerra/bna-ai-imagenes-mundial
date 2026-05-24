@@ -50,6 +50,7 @@ export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePagePr
         apiKey,
         prompt: buildPrompt(opciones),
         inputImageBase64: photo.base64,
+        includeBallReference: opciones.accion === 'pelota',
       });
       if (currentResultRef.current) URL.revokeObjectURL(currentResultRef.current);
       const objectUrl = URL.createObjectURL(blob);

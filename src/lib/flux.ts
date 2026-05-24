@@ -8,6 +8,7 @@
 const APP_NAMESPACE = 'fal-ai/flux-pro';
 const MODEL_PATH = 'kontext/max/multi';
 const JERSEY_REFERENCE_URL = '/jersey-arg.png';
+const BALL_REFERENCE_URL = '/pelota.jpg';
 
 const SUBMIT_URL = `https://queue.fal.run/${APP_NAMESPACE}/${MODEL_PATH}`;
 const REQUESTS_BASE = `https://queue.fal.run/${APP_NAMESPACE}/requests`;
@@ -57,6 +58,8 @@ interface GenerateArgs {
   prompt: string;
   /** Base64-encoded JPEG/PNG, no `data:` prefix. */
   inputImageBase64: string;
+  /** When true, includes a soccer-ball reference image as a third reference. */
+  includeBallReference?: boolean;
   signal?: AbortSignal;
 }
 
@@ -74,38 +77,46 @@ export interface GenerateResult {
   url: string;
 }
 
-// Cache the jersey reference data URL across generations — same file every time,
-// no point re-fetching/re-encoding it.
-let jerseyDataUrlPromise: Promise<string> | null = null;
+// Cache reference data URLs across generations — same files every time,
+// no point re-fetching/re-encoding them.
+const referenceDataUrlCache = new Map<string, Promise<string>>();
 
-function getJerseyDataUrl(): Promise<string> {
-  if (!jerseyDataUrlPromise) {
-    jerseyDataUrlPromise = (async () => {
-      const resp = await fetch(JERSEY_REFERENCE_URL);
-      if (!resp.ok) {
-        throw new FluxError(
-          `No pude cargar la referencia de la camiseta (${resp.status}) — verificá public/jersey-arg.png.`,
-        );
-      }
-      const blob = await resp.blob();
-      return await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = () => reject(new Error('No pude leer la imagen de referencia.'));
-        reader.readAsDataURL(blob);
-      });
-    })();
-  }
-  return jerseyDataUrlPromise;
+function getReferenceDataUrl(url: string, friendlyName: string): Promise<string> {
+  const cached = referenceDataUrlCache.get(url);
+  if (cached) return cached;
+  const p = (async () => {
+    const resp = await fetch(url);
+    if (!resp.ok) {
+      throw new FluxError(
+        `No pude cargar la referencia de ${friendlyName} (${resp.status}) — verificá public${url}.`,
+      );
+    }
+    const blob = await resp.blob();
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(new Error('No pude leer la imagen de referencia.'));
+      reader.readAsDataURL(blob);
+    });
+  })();
+  referenceDataUrlCache.set(url, p);
+  return p;
 }
 
 export async function generateImage({
   apiKey,
   prompt,
   inputImageBase64,
+  includeBallReference,
   signal,
 }: GenerateArgs): Promise<GenerateResult> {
-  const jerseyDataUrl = await getJerseyDataUrl();
+  const jerseyDataUrl = await getReferenceDataUrl(JERSEY_REFERENCE_URL, 'la camiseta');
+  const ballDataUrl = includeBallReference
+    ? await getReferenceDataUrl(BALL_REFERENCE_URL, 'la pelota')
+    : null;
+
+  const image_urls = [`data:image/jpeg;base64,${inputImageBase64}`, jerseyDataUrl];
+  if (ballDataUrl) image_urls.push(ballDataUrl);
 
   const submit = await fetch(SUBMIT_URL, {
     method: 'POST',
@@ -115,7 +126,7 @@ export async function generateImage({
     },
     body: JSON.stringify({
       prompt,
-      image_urls: [`data:image/jpeg;base64,${inputImageBase64}`, jerseyDataUrl],
+      image_urls,
       output_format: 'jpeg',
       safety_tolerance: '2',
       aspect_ratio: '9:16',

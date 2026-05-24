@@ -124,6 +124,11 @@ export function ImagePage() {
   const hasRunRef = useRef(false);
 
   useEffect(() => {
+    document.body.classList.add('allow-native-gestures');
+    return () => document.body.classList.remove('allow-native-gestures');
+  }, []);
+
+  useEffect(() => {
     if (hasRunRef.current) return;
     hasRunRef.current = true;
 
@@ -180,7 +185,14 @@ export function ImagePage() {
           <img
             src={previewSrc}
             alt="Tu imagen Mundial"
+            draggable
             className="max-h-[80dvh] w-auto max-w-full rounded-lg border bg-muted object-contain shadow-sm"
+            style={{
+              WebkitTouchCallout: 'default',
+              WebkitUserSelect: 'auto',
+              userSelect: 'auto',
+              touchAction: 'auto',
+            }}
           />
           <Button
             onClick={handleDownload}
