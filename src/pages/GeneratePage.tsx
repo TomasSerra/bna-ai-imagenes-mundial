@@ -11,15 +11,14 @@ import type { Opciones } from '@/types';
 const STATUS_MESSAGES = [
   'Atando los botines…',
   'Inflando la pelota…',
-  'Afinando el bombo…',
-  'Pintando la camiseta albiceleste…',
+  'Buscando la vuvuzela…',
+  'Poniendo la camiseta',
   'Convocando a la hinchada…',
   'Ajustando la bandera…',
-  'Calentando en el túnel…',
+  'Calentando para salir a la cancha…',
   'Acomodando la cinta de capitán…',
   'Último toque antes del kickoff…',
   'Cantando el himno…',
-  'Limando los tapones…',
   'Llamando al técnico…',
 ];
 
@@ -46,11 +45,12 @@ export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePagePr
     setErrorMsg(null);
     setPublicUrl(null);
     try {
+      const { prompt, extraReferenceUrl } = buildPrompt(opciones);
       const { blob, url: falUrl } = await generateImage({
         apiKey,
-        prompt: buildPrompt(opciones),
+        prompt,
         inputImageBase64: photo.base64,
-        includeBallReference: opciones.accion === 'pelota',
+        extraReferenceUrl,
       });
       if (currentResultRef.current) URL.revokeObjectURL(currentResultRef.current);
       const objectUrl = URL.createObjectURL(blob);

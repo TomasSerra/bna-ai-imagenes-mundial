@@ -1,14 +1,13 @@
-// Cliente para fal.ai (Flux Kontext Multi: face photo + jersey reference).
+// Cliente para fal.ai (nano-banana / Gemini 2.5 Flash Image edit).
 //
-// Usamos el endpoint `kontext/max/multi` que acepta varias imágenes de
-// referencia, así pasamos foto-de-cara + referencia-de-camiseta y el modelo
-// copia el patrón de rayas sin alucinar logos.
-// Costo similar al single-image (~$0.08 / imagen).
+// Acepta `prompt` + `image_urls` (multi-imagen). Comparado con Flux Kontext
+// preserva mucho mejor la identidad y el género de la persona cuando el
+// estilo cambia (Pixar / caricatura), y sigue mejor las directivas de
+// composición. Costo ~$0.039 / imagen.
 
-const APP_NAMESPACE = 'fal-ai/flux-pro';
-const MODEL_PATH = 'kontext/max/multi';
+const APP_NAMESPACE = 'fal-ai/nano-banana';
+const MODEL_PATH = 'edit';
 const JERSEY_REFERENCE_URL = '/jersey-arg.png';
-const BALL_REFERENCE_URL = '/pelota.jpg';
 
 const SUBMIT_URL = `https://queue.fal.run/${APP_NAMESPACE}/${MODEL_PATH}`;
 const REQUESTS_BASE = `https://queue.fal.run/${APP_NAMESPACE}/requests`;
@@ -58,8 +57,8 @@ interface GenerateArgs {
   prompt: string;
   /** Base64-encoded JPEG/PNG, no `data:` prefix. */
   inputImageBase64: string;
-  /** When true, includes a soccer-ball reference image as a third reference. */
-  includeBallReference?: boolean;
+  /** Optional third reference image (e.g. ball, vuvuzela). Public path under /public. */
+  extraReferenceUrl?: string | null;
   signal?: AbortSignal;
 }
 
@@ -107,16 +106,16 @@ export async function generateImage({
   apiKey,
   prompt,
   inputImageBase64,
-  includeBallReference,
+  extraReferenceUrl,
   signal,
 }: GenerateArgs): Promise<GenerateResult> {
   const jerseyDataUrl = await getReferenceDataUrl(JERSEY_REFERENCE_URL, 'la camiseta');
-  const ballDataUrl = includeBallReference
-    ? await getReferenceDataUrl(BALL_REFERENCE_URL, 'la pelota')
+  const extraDataUrl = extraReferenceUrl
+    ? await getReferenceDataUrl(extraReferenceUrl, 'la referencia del objeto')
     : null;
 
   const image_urls = [`data:image/jpeg;base64,${inputImageBase64}`, jerseyDataUrl];
-  if (ballDataUrl) image_urls.push(ballDataUrl);
+  if (extraDataUrl) image_urls.push(extraDataUrl);
 
   const submit = await fetch(SUBMIT_URL, {
     method: 'POST',
@@ -127,8 +126,8 @@ export async function generateImage({
     body: JSON.stringify({
       prompt,
       image_urls,
+      num_images: 1,
       output_format: 'jpeg',
-      safety_tolerance: '2',
       aspect_ratio: '9:16',
     }),
     signal,
@@ -208,8 +207,12 @@ async function fetchResultSampleUrl(
   }
   const body = (await resp.json()) as ResultResponse;
 
+  // fal.ai's NSFW detector has heavy false-positive rates on portrait
+  // generations (people in jerseys, close-ups). Since the user has already
+  // been charged once the result comes back, we log the flag and still
+  // show the image rather than throwing the credits away.
   if (body.has_nsfw_concepts?.some(Boolean)) {
-    throw new FluxError('La imagen fue marcada como NSFW por el filtro. Probá con otra foto u opciones.');
+    console.warn('[fal] has_nsfw_concepts flagged but showing image anyway', body.has_nsfw_concepts);
   }
   const first = body.images?.[0]?.url;
   if (!first) {

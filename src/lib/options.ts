@@ -1,18 +1,21 @@
 import {
-  Camera,
+  Brush,
   CircleDot,
   Clapperboard,
-  Drum,
   Flag,
   Goal,
   Landmark,
   Laugh,
+  Megaphone,
+  Sparkles,
   Users,
-} from 'lucide-react';
-import type { ComponentType, SVGProps } from 'react';
-import type { EstiloId } from '@/types';
+} from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
+import type { EstiloId } from "@/types";
 
-export type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
+export type IconComponent = ComponentType<
+  SVGProps<SVGSVGElement> & { className?: string }
+>;
 
 interface Option {
   id: string;
@@ -23,43 +26,43 @@ interface Option {
 
 export const AMBIENTES: Option[] = [
   {
-    id: 'obelisco',
-    label: 'Obelisco',
-    en: 'in front of the iconic white Obelisco of Buenos Aires on Avenida 9 de Julio, the Obelisco clearly visible directly behind the person in the background, golden hour light, Argentine fans and flags around the avenue',
+    id: "obelisco",
+    label: "Obelisco",
+    en: "on Avenida 9 de Julio in front of the white Obelisco of Buenos Aires at golden hour, with a packed crowd of Argentine fans in sky-blue and white waving large Argentine flags behind the person",
     icon: Landmark,
   },
   {
-    id: 'cancha',
-    label: 'Cancha de fútbol',
-    en: 'on the fresh green grass of a professional soccer field inside a packed stadium, bright stadium floodlights overhead, the crowd in the stands softly blurred in the background',
+    id: "cancha",
+    label: "Cancha de fútbol",
+    en: "on the grass of a packed soccer stadium with floodlights and a softly blurred crowd in the stands behind",
     icon: Goal,
   },
   {
-    id: 'tribuna',
-    label: 'Tribuna de estadio',
-    en: 'in the middle of the stands of a packed soccer stadium, surrounded on all sides by cheering Argentine fans in sky-blue and white, the soccer field visible far below, stadium floodlights',
+    id: "tribuna",
+    label: "Tribuna de estadio",
+    en: "seated among the crowd inside packed stadium stands, shoulder-to-shoulder with other Argentine fans in sky-blue and white — not on the field, no grass visible",
     icon: Users,
   },
 ];
 
 export const ACCIONES: Option[] = [
   {
-    id: 'pelota',
-    label: 'Pelota de Fútbol',
-    en: 'holding a classic black-and-white soccer ball in their hands at chest level',
+    id: "pelota",
+    label: "Pelota de Fútbol",
+    en: "holding a soccer ball at chest level",
     icon: CircleDot,
   },
   {
-    id: 'bandera',
-    label: 'Bandera Argentina',
-    en: 'holding a large Argentine flag mounted on a wooden flagpole — the person is gripping the flagpole firmly with one raised hand, the flag attached to the pole and waving in the wind (flameando), fabric rippling dynamically as if blown by a breeze; the flag has three horizontal stripes (sky blue on top, white in the middle, sky blue on the bottom) with the golden Sun of May in the center stripe, no other logos or text, the flag clearly visible and unfurled',
+    id: "bandera",
+    label: "Bandera Argentina",
+    en: "holding one Argentine flag (sky-blue / white / sky-blue horizontal stripes with the golden Sun of May) on a single thin white flagpole, gripped with one raised hand only",
     icon: Flag,
   },
   {
-    id: 'bombo',
-    label: 'Bombo',
-    en: 'wearing a traditional Argentine hinchada bass drum (bombo) hanging from their neck by a wide fabric strap across the shoulder, the drum resting against their torso, holding a wooden drumstick (maza) in their hand ready to play',
-    icon: Drum,
+    id: "vuvuzela",
+    label: "Vuvuzela",
+    en: "holding a long sky-blue and white striped vuvuzela horn raised toward the face, shown from a three-quarter side angle",
+    icon: Megaphone,
   },
 ];
 
@@ -69,21 +72,27 @@ interface EstiloOption extends Option {
 
 export const ESTILOS: EstiloOption[] = [
   {
-    id: 'realista',
-    label: 'Realista',
-    en: 'ultra photorealistic photograph, sharp focus, natural lighting, high detail, photorealistic skin tones and textures, faithfully preserving the exact face shape, bone structure, facial proportions, and likeness from the first reference image',
-    icon: Camera,
+    id: "ghibli",
+    label: "Ghibli 2D",
+    en: "hand-painted 2D anime in the style of Studio Ghibli films (Spirited Away, My Neighbor Totoro, Howl's Moving Castle) — soft watercolor backgrounds, gentle pastel colors, hand-drawn cel-shaded characters with clean line work, warm cinematic atmosphere; the styling is light so the person's actual facial features (their real eye shape and color, their real nose, their real mouth, their real hair color and style) remain clearly recognizable — do NOT replace the face with a generic anime character, do NOT enlarge the eyes into oversized anime eyes",
+    icon: Sparkles,
   },
   {
-    id: 'pixar',
-    label: 'Pixar 3D',
-    en: 'highly stylized Pixar-Disney 3D animated character render in the cinematic look of modern Disney/Pixar feature films (Tangled, Encanto, Inside Out, Soul, Luca), very large expressive cartoon eyes with detailed glossy multi-toned irises, bright sparkling catchlights and soft eyelashes, rounded soft cheeks, slightly exaggerated stylized facial proportions (small button nose, gentle half-smile, soft jawline), smooth stylized skin with rich subsurface scattering, fluffy detailed hair with visible individual hair strands and flyaways catching soft cinematic rim light wrapping around the silhouette, very soft painterly diffused shadows on the character (NEVER harsh edges, NEVER realistic shadow falloff), shallow depth of field with creamy dreamy bokeh, ultra detailed PBR materials on the character, soft global illumination, high-quality octane/arnold/renderman 3D render, animation-grade topology and shading, NOT photorealistic, NOT realistic photo — pure stylized 3D animation movie still',
+    id: "pixar",
+    label: "Pixar 3D",
+    en: "stylized 3D animated render in the soft look of modern Pixar/Disney films (Encanto, Luca, Coco) — soft painterly lighting, gentle cel-shaded skin, warm cinematic atmosphere; the styling is light and subtle so the person's actual facial features (their real eye shape and color, their real nose, their real mouth, their real hair color and style) remain clearly recognizable — do NOT replace the face with a generic cartoon character, do NOT enlarge the eyes into oversized anime/cartoon eyes",
     icon: Clapperboard,
   },
   {
-    id: 'caricatura',
-    label: 'Caricatura',
-    en: 'hand-drawn cartoon caricature, sketched by an artist on paper, exaggerated oversized head with small cartoon body, thick uneven hand-inked black outlines with visible pen strokes, slightly wobbly imperfect linework, hand-colored with soft cel-shading and simple highlights, exaggerated facial features (huge expressive eyes, big oversized smile with prominent teeth and lips, playful goofy expression), traditional caricature artist style like a street fair portrait, clean off-white paper background, vibrant marker-like colors',
+    id: "caricatura2d",
+    label: "Caricatura 2D",
+    en: "hand-drawn 2D caricature in the polished style of a professional caricature artist — exaggerated proportions with a noticeably oversized head and a small body, bold clean inked outlines around the face and hair, smooth hand-colored shading with subtle painted texture, detailed individual strands of hair, polished comic-style line work, recognizable real features brought out with slight playful exaggeration (eyes, smile, hair) while keeping the actual likeness of the reference photo. FRAMING: the character is positioned in the center of the canvas and occupies only the middle portion of the frame, with clear space all around them. BACKGROUND (MANDATORY): a fully drawn scene in the same caricature style covers 100% of the canvas — every pixel of the background, including above the head, beside the shoulders, below the body and in all four corners, must be drawn-in scene content; NO blank paper, NO white margins, NO empty space, NO vignette",
+    icon: Brush,
+  },
+  {
+    id: "caricatura3d",
+    label: "Caricatura 3D",
+    en: "highly stylized 3D caricature with a huge head, expressive facial features, and playful exaggeration — rendered in a smooth, polished style with clean materials and soft ambient lighting. The entire scene (background, crowd and objects) rendered in the same smooth 3D caricature style filling the full frame edge-to-edge — no empty white space",
     icon: Laugh,
   },
 ];
