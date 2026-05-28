@@ -113,7 +113,7 @@ export function GeneratePage({ apiKey, photo, opciones, onBack }: GeneratePagePr
       </header>
 
       <div className="flex flex-1 min-h-0 items-center justify-center">
-        <div className="relative aspect-[9/16] h-full max-h-full overflow-hidden rounded-lg border bg-muted">
+        <div className="relative aspect-[9/16] h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg border bg-muted">
           {phase === 'generating' && (
             <>
               <Skeleton className="absolute inset-0 h-full w-full" />

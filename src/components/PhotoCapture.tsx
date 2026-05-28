@@ -82,8 +82,10 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
   if (hasPhoto && previewUrl) {
     return (
       <div className="flex h-full flex-col gap-3">
-        <div className="flex-1 min-h-0 overflow-hidden rounded-lg border bg-muted">
-          <img src={previewUrl} alt="Foto capturada" className="h-full w-full object-cover" />
+        <div className="flex-1 min-h-0 flex items-center justify-center">
+          <div className="aspect-[3/4] h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg border bg-muted">
+            <img src={previewUrl} alt="Foto capturada" className="h-full w-full object-cover" />
+          </div>
         </div>
         <Button
           variant="outline"
@@ -98,21 +100,23 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
 
   return (
     <div className="flex h-full flex-col gap-3">
-      <div className="flex-1 min-h-0 overflow-hidden rounded-lg border bg-muted">
-        {error ? (
-          <div className="flex h-full items-center justify-center p-4">
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          </div>
-        ) : (
-          <video
-            ref={videoRef}
-            playsInline
-            muted
-            className="h-full w-full object-cover [transform:scaleX(-1)]"
-          />
-        )}
+      <div className="flex-1 min-h-0 flex items-center justify-center">
+        <div className="aspect-[3/4] h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg border bg-muted">
+          {error ? (
+            <div className="flex h-full items-center justify-center p-4">
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            </div>
+          ) : (
+            <video
+              ref={videoRef}
+              playsInline
+              muted
+              className="h-full w-full object-cover [transform:scaleX(-1)]"
+            />
+          )}
+        </div>
       </div>
 
       <Button
