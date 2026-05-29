@@ -12,7 +12,7 @@ const STORAGE_KEY = 'fal_api_key';
 const DEFAULT_OPCIONES: Opciones = {
   ambiente: 'obelisco',
   accion: 'pelota',
-  estilo: 'ghibli',
+  estilo: 'pixar',
 };
 
 type Page = 'home' | 'capture' | 'generate';
