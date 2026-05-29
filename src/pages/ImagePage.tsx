@@ -95,7 +95,7 @@ async function descargarCanvas(canvas: HTMLCanvasElement) {
   );
   if (!blob) throw new Error('No pude generar el archivo para descargar.');
 
-  const filename = `mundial-argentina-${Date.now()}.jpg`;
+  const filename = `bna-mundial-argentina-${Date.now()}.jpg`;
   const file = new File([blob], filename, { type: 'image/jpeg' });
 
   // iOS Safari: Web Share API opens the native share sheet → "Guardar en Fotos".
@@ -181,8 +181,8 @@ export function ImagePage() {
       {!errorMsg && !previewSrc && (
         <div className="flex flex-1 items-center justify-center">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Loader2 className="size-5 animate-spin" />
-            <p className="text-base">Preparando tu imagen…</p>
+            <Loader2 className="size-5 animate-spin text-white" />
+            <p className="text-base text-white">Preparando tu imagen…</p>
           </div>
         </div>
       )}
