@@ -146,18 +146,15 @@ export function GeneratePage({ apiKey, photo, opciones, onBack, onDone }: Genera
           className="pointer-events-none fixed inset-0 z-50"
         />
       )}
-      <header className="grid grid-cols-3 items-center">
-        <div className="justify-self-start">
-          {phase === 'error' && (
-            <Button variant="ghost" size="sm" onClick={onBack}>
-              <ArrowLeft className="size-4" /> Volver
-            </Button>
-          )}
-        </div>
+      <header className="relative flex items-center justify-center">
+        {phase === 'error' && (
+          <Button variant="ghost" size="sm" onClick={onBack} className="absolute left-0">
+            <ArrowLeft className="size-4" /> Volver
+          </Button>
+        )}
         <h2 className="whitespace-nowrap text-center text-3xl font-kievit-black tracking-wide text-white drop-shadow-md">
           {phase === 'generating' ? 'Generando Imagen' : 'Resultado'}
         </h2>
-        <div />
       </header>
 
       <div className="flex flex-1 min-h-0 items-center justify-center">

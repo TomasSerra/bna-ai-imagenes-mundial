@@ -23,8 +23,7 @@ export function CapturePage({
 }: CapturePageProps) {
   return (
     <div className="flex h-dvh w-dvw flex-col gap-4 overflow-hidden p-6">
-      <section className="flex flex-[1.15] min-h-0 flex-col">
-        <h2 className="mb-4 text-3xl font-kievit-black tracking-wide text-white drop-shadow-md">1. Sacate una foto</h2>
+      <section className="flex flex-[1.15] min-h-0 flex-col pt-4">
         <div className="flex-1 min-h-0">
           <PhotoCapture
             hasPhoto={Boolean(photo)}
@@ -35,8 +34,8 @@ export function CapturePage({
         </div>
       </section>
 
-      <section className="flex flex-1 min-h-0 flex-col gap-4 overflow-hidden">
-        <h2 className="text-3xl font-kievit-black tracking-wide text-white drop-shadow-md">2. Elegí la escena mundialera</h2>
+      <section className="flex flex-1 min-h-0 flex-col gap-4 overflow-hidden pt-4">
+        <h2 className="text-3xl font-kievit-black tracking-wide text-white drop-shadow-md">Elegí la escena mundialera</h2>
         <div className="flex-1 min-h-0 overflow-auto">
           <OptionsForm value={opciones} onChange={setOpciones} />
         </div>

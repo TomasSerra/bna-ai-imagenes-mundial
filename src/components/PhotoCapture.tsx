@@ -11,10 +11,30 @@ interface PhotoCaptureProps {
   onReset: () => void;
 }
 
+const BUTTON_HEIGHT = 64; // h-16
+const COLUMN_GAP = 12;    // gap-3
+const PHOTO_ASPECT = 3 / 4;
+
 export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: PhotoCaptureProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [columnWidth, setColumnWidth] = useState<number | undefined>();
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      const photoH = Math.max(0, h - BUTTON_HEIGHT - COLUMN_GAP);
+      setColumnWidth(photoH * PHOTO_ASPECT);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [hasPhoto]);
 
   useEffect(() => {
     if (hasPhoto) return;
@@ -81,27 +101,27 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
 
   if (hasPhoto && previewUrl) {
     return (
-      <div className="flex h-full flex-col gap-3">
-        <div className="flex-1 min-h-0 flex items-center justify-center">
-          <div className="aspect-[3/4] h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg border bg-muted">
+      <div ref={containerRef} className="flex h-full items-center justify-center">
+        <div className="flex flex-col gap-3" style={{ width: columnWidth }}>
+          <div className="aspect-[3/4] w-full overflow-hidden rounded-lg border bg-muted">
             <img src={previewUrl} alt="Foto capturada" className="h-full w-full object-cover" />
           </div>
+          <Button
+            variant="outline"
+            onClick={onReset}
+            className="h-16 w-full border-transparent bg-white text-primary text-2xl hover:bg-white/90 hover:text-primary [&_svg]:size-7"
+          >
+            <RefreshCw /> Volver a tomar la foto
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          onClick={onReset}
-          className="h-16 w-full border-transparent bg-white text-primary text-2xl hover:bg-white/90 hover:text-primary [&_svg]:size-7"
-        >
-          <RefreshCw /> Volver a tomar la foto
-        </Button>
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col gap-3">
-      <div className="flex-1 min-h-0 flex items-center justify-center">
-        <div className="aspect-[3/4] h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg border bg-muted">
+    <div ref={containerRef} className="flex h-full items-center justify-center">
+      <div className="flex flex-col gap-3" style={{ width: columnWidth }}>
+        <div className="aspect-[3/4] w-full overflow-hidden rounded-lg border bg-muted">
           {error ? (
             <div className="flex h-full items-center justify-center p-4">
               <Alert variant="destructive">
@@ -117,15 +137,15 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
             />
           )}
         </div>
-      </div>
 
-      <Button
-        onClick={capture}
-        disabled={!streaming}
-        className="h-16 w-full text-2xl [&_svg]:size-7"
-      >
-        <Camera /> Capturar foto
-      </Button>
+        <Button
+          onClick={capture}
+          disabled={!streaming}
+          className="h-16 w-full text-2xl [&_svg]:size-7"
+        >
+          <Camera /> Capturar foto
+        </Button>
+      </div>
     </div>
   );
 }

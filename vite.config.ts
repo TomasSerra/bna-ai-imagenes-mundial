@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['logo-bna.png', 'jersey-arg.png'],
+      includeAssets: ['logo-bna.png', 'jersey-arg.png', 'video.mp4'],
       manifest: {
         name: 'Generador IA — Mundial Argentina',
         short_name: 'Mundial AR',
@@ -32,8 +32,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,ico,webp,woff2}'],
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html,png,svg,ico,webp,woff2,mp4}'],
+        maximumFileSizeToCacheInBytes: 40 * 1024 * 1024,
         navigateFallbackDenylist: [/^\/image/],
       },
       devOptions: {

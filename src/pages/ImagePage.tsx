@@ -5,14 +5,16 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 /**
  * Tunable watermark parameters. Change these to adjust position, size, or
- * intensity of the BNA logo overlay without touching compose logic below.
+ * intensity of the bottom text + logo overlay without touching compose logic.
  */
 const WATERMARK = {
-  widthPct: 0.22, // logo width = 22% of image width
-  marginPct: 0.03, // margin from the bottom-right edges
-  padInsidePct: 0.5, // padding inside the pill, as a multiplier of logo height
-  pillColor: 'hsla(200, 100%, 28.8%, 0.45)', // --primary @ 45% (matches index.css)
-  logoOpacity: 0.85,
+  text: 'Salgamos a la cancha con',
+  textSizePct: 0.05, // font size = 4% of canvas width
+  logoHeightMultiplier: 1.6, // logo height = 1.6× font size
+  bottomMarginPct: 0.025, // bottom margin for the text+logo block
+  gapPct: 0.015, // horizontal gap between text and logo
+  gradientHeightPct: 0.2, // gradient covers the bottom 28% of the canvas
+  gradientAlpha: 1, // gradient opacity at the very bottom
   logoSrc: '/logo-bna.png',
 } as const;
 
@@ -24,23 +26,6 @@ function loadImage(src: string, crossOrigin?: 'anonymous'): Promise<HTMLImageEle
     img.onerror = () => reject(new Error(`No pude cargar la imagen: ${src}`));
     img.src = src;
   });
-}
-
-function roundRect(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number,
-) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
 }
 
 async function composeWatermarked(falUrl: string): Promise<HTMLCanvasElement> {
@@ -55,29 +40,51 @@ async function composeWatermarked(falUrl: string): Promise<HTMLCanvasElement> {
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('No pude inicializar el canvas.');
 
+  const W = canvas.width;
+  const H = canvas.height;
+
   // 1) Base photo
   ctx.drawImage(photo, 0, 0);
 
-  // 2) Pill background
-  const W = canvas.width;
-  const H = canvas.height;
-  const wmW = W * WATERMARK.widthPct;
-  const wmH = wmW * (logo.naturalHeight / logo.naturalWidth);
-  const padIn = wmH * WATERMARK.padInsidePct;
-  const pillW = wmW + padIn * 2;
-  const pillH = wmH + padIn * 2;
-  const margin = W * WATERMARK.marginPct;
-  const x = W - pillW - margin;
-  const y = H - pillH - margin;
+  // 2) Bottom black-to-transparent gradient (transparent at top, dark at bottom)
+  const gh = H * WATERMARK.gradientHeightPct;
+  const grad = ctx.createLinearGradient(0, H - gh, 0, H);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(1, `rgba(0,0,0,${WATERMARK.gradientAlpha})`);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, H - gh, W, gh);
 
-  ctx.fillStyle = WATERMARK.pillColor;
-  roundRect(ctx, x, y, pillW, pillH, pillH / 2);
-  ctx.fill();
+  // 3) Make sure the Kievit webfont is loaded before measuring/drawing.
+  const fontPx = Math.round(W * WATERMARK.textSizePct);
+  const fontSpec = `700 ${fontPx}px "Kievit", sans-serif`;
+  try {
+    await document.fonts.load(fontSpec, WATERMARK.text);
+  } catch {
+    // Fall through to default font if loading fails.
+  }
 
-  // 3) White logo on top
-  ctx.globalAlpha = WATERMARK.logoOpacity;
-  ctx.drawImage(logo, x + padIn, y + padIn, wmW, wmH);
-  ctx.globalAlpha = 1;
+  // 4) Measure to center the [text][gap][logo] block horizontally.
+  ctx.font = fontSpec;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  const textW = ctx.measureText(WATERMARK.text).width;
+
+  const logoH = fontPx * WATERMARK.logoHeightMultiplier;
+  const logoW = logoH * (logo.naturalWidth / logo.naturalHeight);
+  const gap = W * WATERMARK.gapPct;
+  const totalW = textW + gap + logoW;
+
+  const blockH = Math.max(fontPx, logoH);
+  const marginBottom = H * WATERMARK.bottomMarginPct;
+  const centerY = H - marginBottom - blockH / 2;
+  const startX = (W - totalW) / 2;
+
+  // 5) White text
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText(WATERMARK.text, startX, centerY);
+
+  // 6) Logo to the right of the text
+  ctx.drawImage(logo, startX + textW + gap, centerY - logoH / 2, logoW, logoH);
 
   return canvas;
 }
@@ -197,7 +204,7 @@ export function ImagePage() {
           <Button
             onClick={handleDownload}
             disabled={downloading}
-            className="h-14 w-full max-w-md text-xl [&_svg]:size-6"
+            className="h-20 w-[90%] text-3xl [&_svg]:size-8 gap-4"
           >
             {downloading ? (
               <>
@@ -211,8 +218,8 @@ export function ImagePage() {
               </>
             )}
           </Button>
-          <p className="text-center text-sm text-muted-foreground">
-            En iPhone, tocá <strong>Compartir</strong> → <strong>Guardar en Fotos</strong>.
+          <p className="text-center text-xl text-foreground">
+            En iPhone tambien podes <strong>mantener apretada</strong> la imagen <br /> y guardarla en tus fotos.
           </p>
         </>
       )}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiKeyDialog } from '@/components/ApiKeyDialog';
+import { IdleVideoOverlay } from '@/components/IdleVideoOverlay';
 import { CapturePage } from '@/pages/CapturePage';
 import { GeneratePage } from '@/pages/GeneratePage';
 import { HomePage } from '@/pages/HomePage';
@@ -105,6 +106,8 @@ function KioskApp() {
           onDone={resetAndGoHome}
         />
       )}
+
+      <IdleVideoOverlay />
     </div>
   );
 }

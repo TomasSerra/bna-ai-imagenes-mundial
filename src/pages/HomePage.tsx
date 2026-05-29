@@ -6,12 +6,12 @@ export function HomePage({ onStart }: HomePageProps) {
   return (
     <div className="flex h-dvh w-dvw flex-col items-center justify-between overflow-hidden bg-[url('/bg-home.png')] bg-cover bg-center bg-no-repeat">
       <div className="flex w-full flex-1 flex-col items-center justify-end pb-[8dvh]">
-        <h1 className="m-0 text-center text-7xl font-kievit-black leading-tight text-white drop-shadow-md sm:text-8xl">
+        <h1 className="m-0 text-center text-7xl font-kievit-black leading-tight text-white">
           ¡Te damos
           <br />
           la bienvenida!
         </h1>
-        <p className="mb-0 mt-6 w-[90%] text-center text-3xl font-medium text-white drop-shadow-md sm:text-4xl">
+        <p className="mb-0 mt-6 w-[90%] text-center text-3xl font-medium text-white sm:text-4xl">
           Sacate una foto y convertite en tu versión mundialera con IA
         </p>
         <button
