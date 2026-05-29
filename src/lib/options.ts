@@ -72,14 +72,8 @@ interface EstiloOption extends Option {
 
 export const ESTILOS: EstiloOption[] = [
   {
-    id: "ghibli",
-    label: "Ghibli 2D",
-    en: "hand-painted 2D anime in the style of Studio Ghibli films (Spirited Away, My Neighbor Totoro, Howl's Moving Castle) — soft watercolor backgrounds, gentle pastel colors, hand-drawn cel-shaded characters with clean line work, warm cinematic atmosphere; the styling is light so the person's actual facial features (their real eye shape and color, their real nose, their real mouth, their real hair color and style) remain clearly recognizable — do NOT replace the face with a generic anime character, do NOT enlarge the eyes into oversized anime eyes",
-    icon: Sparkles,
-  },
-  {
     id: "pixar",
-    label: "Pixar 3D",
+    label: "Animación 3D",
     en: "Disney Pixar 3D animated style — smooth polished textures, big expressive eyes with bright catchlights, vibrant saturated colors, soft cinematic lighting and a playful polished look reminiscent of modern Pixar/Disney films (Encanto, Luca, Coco, Turning Red). Keep the person's real likeness clearly recognizable: their actual eye color, eye shape, eyebrow shape, nose shape, mouth shape, hair color, hairstyle, skin tone, facial hair and any distinguishing marks must be preserved — do NOT replace the face with a generic Pixar character. The entire scene (background, crowd and objects) is rendered in the same Pixar 3D style filling the full frame edge-to-edge — no empty white space, no vignette",
     icon: Clapperboard,
   },
@@ -94,5 +88,11 @@ export const ESTILOS: EstiloOption[] = [
     label: "Caricatura 3D",
     en: "semi-realistic 3D caricature sculpt with strongly exaggerated proportions but realistic skin, hair and material detail — rendered like a high-end character bust with subsurface scattering, realistic pores and soft cinematic studio lighting. PROPORTIONS (mandatory): the head is enormous and clearly dominates the frame — roughly the same size as the entire torso — sitting on a noticeably small, narrow body with small shoulders and short little arms. FACIAL FEATURES (mandatory exaggeration while keeping the real likeness of the reference photo): the eyes are big and wide-open with detailed irises and visible catchlights; the nose is large and prominent (long/wide/bulbous following whatever shape the real nose has, just bigger); the mouth is small and compact. Keep the person's actual eye color, eye shape, eyebrow shape, hair color and hairstyle, skin tone, facial hair, jawline and any distinguishing marks — do NOT generalize the face, the viewer must instantly recognize the real person, only with the playful exaggeration described. The entire scene (background, crowd and objects) is rendered in the same semi-realistic 3D caricature style filling the full frame edge-to-edge — no empty white space, no vignette",
     icon: Laugh,
+  },
+  {
+    id: "ghibli",
+    label: "Anime",
+    en: "hand-painted 2D anime in the style of Studio Ghibli films (Spirited Away, My Neighbor Totoro, Howl's Moving Castle) — soft watercolor backgrounds, gentle pastel colors, hand-drawn cel-shaded characters with clean line work, warm cinematic atmosphere; the styling is light so the person's actual facial features (their real eye shape and color, their real nose, their real mouth, their real hair color and style) remain clearly recognizable — do NOT replace the face with a generic anime character, do NOT enlarge the eyes into oversized anime eyes",
+    icon: Sparkles,
   },
 ];
