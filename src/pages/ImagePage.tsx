@@ -219,7 +219,7 @@ export function ImagePage() {
             )}
           </Button>
           <p className="text-center text-xl text-foreground">
-            En iPhone tambien podes <strong>mantener apretada</strong> la imagen <br /> y guardarla en tus fotos.
+            Tambien podes <strong>mantener apretada</strong> la imagen <br /> y guardarla en tus fotos
           </p>
         </>
       )}
