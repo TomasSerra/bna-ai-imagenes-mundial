@@ -36,8 +36,8 @@ export function ApiKeyDialog({ open, onSave, onClose, initialKey = '' }: ApiKeyD
             Conectá tu cuenta de fal.ai
           </DialogTitle>
           <DialogDescription className="text-lg leading-relaxed text-white/80">
-            Pegá tu API key de fal.ai. Se guarda solo en tu navegador (localStorage) y nunca sale
-            de tu equipo. Vas a pagar por uso real en tu cuenta de fal (~$0.04 por imagen).
+            Pegá tu API key de fal.ai. Se guarda solo en tu navegador y nunca sale
+            de tu equipo.
           </DialogDescription>
         </DialogHeader>
 
