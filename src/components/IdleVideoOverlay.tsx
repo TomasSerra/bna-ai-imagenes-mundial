@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const IDLE_MS = 5 * 60 * 5000;
+const IDLE_MS = 3 * 60 * 1000;
 const ACTIVITY_EVENTS = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'wheel'] as const;
 
 export function IdleVideoOverlay() {
@@ -11,7 +11,7 @@ export function IdleVideoOverlay() {
   visibleRef.current = visible;
 
   useEffect(() => {
-    if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
+    // if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return;
 
     const clearTimer = () => {
       if (timeoutRef.current !== null) {
