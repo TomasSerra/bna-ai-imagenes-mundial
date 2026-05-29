@@ -29,13 +29,13 @@ export function ApiKeyDialog({ open, onSave, onClose, initialKey = '' }: ApiKeyD
         if (!o) onClose?.();
       }}
     >
-      <DialogContent hideClose={!onClose} className="gap-6 p-8 sm:max-w-2xl">
+      <DialogContent hideClose={!onClose} className="gap-6 p-8 text-white sm:max-w-2xl">
         <DialogHeader className="space-y-3">
           <DialogTitle className="flex items-center gap-3 text-3xl">
             <KeyRound className="size-8" />
             Conectá tu cuenta de fal.ai
           </DialogTitle>
-          <DialogDescription className="text-lg leading-relaxed">
+          <DialogDescription className="text-lg leading-relaxed text-white/80">
             Pegá tu API key de fal.ai. Se guarda solo en tu navegador (localStorage) y nunca sale
             de tu equipo. Vas a pagar por uso real en tu cuenta de fal (~$0.04 por imagen).
           </DialogDescription>
@@ -61,7 +61,7 @@ export function ApiKeyDialog({ open, onSave, onClose, initialKey = '' }: ApiKeyD
             href="https://fal.ai/dashboard/keys"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-base text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 text-base text-white/80 hover:text-white"
           >
             Obtené una clave en fal.ai/dashboard/keys <ExternalLink className="size-5" />
           </a>

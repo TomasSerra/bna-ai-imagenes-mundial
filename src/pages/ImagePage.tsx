@@ -163,7 +163,7 @@ export function ImagePage() {
   };
 
   return (
-    <div className="flex min-h-dvh w-dvw flex-col items-center gap-4 p-4">
+    <div className="flex min-h-dvh w-dvw flex-col items-center gap-4 bg-[url('/bg-game.png')] bg-cover bg-center bg-no-repeat p-4">
       {errorMsg && (
         <Alert variant="destructive" className="max-w-md">
           <AlertTitle>No pudimos preparar la imagen</AlertTitle>

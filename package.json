@@ -16,9 +16,11 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.460.0",
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
+    "react-confetti": "^6.4.0",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"

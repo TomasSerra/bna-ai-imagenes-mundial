@@ -90,7 +90,7 @@ export function PhotoCapture({ onCapture, hasPhoto, previewUrl, onReset }: Photo
         <Button
           variant="outline"
           onClick={onReset}
-          className="h-16 w-full text-2xl [&_svg]:size-7"
+          className="h-16 w-full border-transparent bg-white text-primary text-2xl hover:bg-white/90 hover:text-primary [&_svg]:size-7"
         >
           <RefreshCw /> Volver a tomar la foto
         </Button>

@@ -11,6 +11,10 @@ export default {
       screens: { '2xl': '1400px' },
     },
     extend: {
+      fontFamily: {
+        sans: ['Kievit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'kievit-black': ['"Kievit Black"', 'Kievit', 'sans-serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

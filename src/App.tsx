@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiKeyDialog } from '@/components/ApiKeyDialog';
 import { CapturePage } from '@/pages/CapturePage';
 import { GeneratePage } from '@/pages/GeneratePage';
+import { HomePage } from '@/pages/HomePage';
 import { ImagePage } from '@/pages/ImagePage';
 import type { Opciones } from '@/types';
 
@@ -13,7 +14,7 @@ const DEFAULT_OPCIONES: Opciones = {
   estilo: 'ghibli',
 };
 
-type Page = 'capture' | 'generate';
+type Page = 'home' | 'capture' | 'generate';
 
 /** Public watermarked-download page shown when a visitor opens the QR link
  *  on their phone. Sits outside the kiosk state machine entirely. */
@@ -33,7 +34,13 @@ function KioskApp() {
 
   const [photo, setPhoto] = useState<{ base64: string; dataUrl: string } | null>(null);
   const [opciones, setOpciones] = useState<Opciones>(DEFAULT_OPCIONES);
-  const [page, setPage] = useState<Page>('capture');
+  const [page, setPage] = useState<Page>('home');
+
+  const resetAndGoHome = () => {
+    setPhoto(null);
+    setOpciones(DEFAULT_OPCIONES);
+    setPage('home');
+  };
 
   const lastSecretTapRef = useRef<number>(0);
 
@@ -60,7 +67,7 @@ function KioskApp() {
   };
 
   return (
-    <div className="h-dvh w-dvw overflow-hidden bg-gradient-to-b from-background to-muted/30">
+    <div className="h-dvh w-dvw overflow-hidden bg-[url('/bg-game.png')] bg-cover bg-center bg-no-repeat">
       <ApiKeyDialog
         open={keyDialogOpen}
         onSave={handleSaveKey}
@@ -75,6 +82,8 @@ function KioskApp() {
         onClick={handleSecretTap}
         className="absolute right-0 top-0 z-10 size-24 cursor-default bg-transparent opacity-0"
       />
+
+      {page === 'home' && <HomePage onStart={() => setPage('capture')} />}
 
       {page === 'capture' && (
         <CapturePage
@@ -93,6 +102,7 @@ function KioskApp() {
           photo={photo}
           opciones={opciones}
           onBack={() => setPage('capture')}
+          onDone={resetAndGoHome}
         />
       )}
     </div>

@@ -1,28 +1,48 @@
+@font-face {
+  font-family: 'Kievit';
+  src: url('/fonts/Kievit-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('/fonts/Kievit-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit Black';
+  src: url('/fonts/Kievit-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* BNA memotest palette: dark navy fallback, cyan primary, white text. */
+    --background: 220 70% 14%;
+    --foreground: 0 0% 100%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 70% 14%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 200 100% 28.8%;
+    --popover-foreground: 220 70% 14%;
+    --primary: 220 70% 14%;
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 200 100% 28.8%;
+    --secondary-foreground: 220 70% 14%;
+    --muted: 200 30% 92%;
+    --muted-foreground: 220 30% 35%;
+    --accent: 205 70% 44%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 9 87% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 40% 80%;
+    --input: 200 40% 80%;
+    --ring: 190 78% 51%;
     --radius: 0.75rem;
   }
 
@@ -64,7 +84,7 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    font-family: 'Kievit', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
       "Helvetica Neue", Arial, sans-serif;
   }
 
